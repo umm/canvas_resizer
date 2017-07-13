@@ -1,10 +1,21 @@
 # What?
 
-This repository is `Package Template` for Unity uses npm.
+uGUI の Canvas を良い感じにリサイズします。
 
 # Why?
 
-Please check [here](https://github.com/shadowmint/unity-package-template/blob/master/docs/npm.md)
+* スマホの画面サイズに応じて背景を調整したかった。
+
+# Install
+
+```shell
+$ npm install @umm/canvas-resizer
+```
+
+# Usage
+
+* Canvas がセットされている GameObject に CanvasResizer を AddComponent してください。
+* 後はヨシナに CanvasScaler の matchWidthOrHeight を調整します。
 
 # License
 
