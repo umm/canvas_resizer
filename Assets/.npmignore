@@ -3,3 +3,5 @@ Modules/
 Modules.meta
 Tests/
 Tests.meta
+Plugins/
+Plugins.meta

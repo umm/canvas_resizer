@@ -48,4 +48,5 @@ Thumbs.db
 # ====== #
 # Custom #
 # ====== #
-
+Assets/Plugins*
+Assets/Plugins/Editor*
