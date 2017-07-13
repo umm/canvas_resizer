@@ -30,5 +30,7 @@
     "pascal-case": "^2.0.1",
     "rimraf": "^2.6.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@umm/game-object-extension-component": "^0.1.2"
+  }
 }
