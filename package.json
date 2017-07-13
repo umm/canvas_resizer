@@ -1,0 +1,34 @@
+{
+  "name": "@umm/canvas-resizer",
+  "version": "1.0.0",
+  "description": "Resize uGUI Canvas (UnityEngine.UI.Canvas) uses CanvasScaler (UnityEngine.UI.CanvasScaler)",
+  "homepage": "https://github.com/monry/canvas-resizer",
+  "bugs": {
+    "url": "https://github.com/monry/canvas-resizer/issues"
+  },
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js",
+    "build:test": "tar -tf $(npm pack -s) && $(npm bin)/rimraf $_"
+  },
+  "author": {
+    "name": "Tetsuya Mori",
+    "email": "monry84@gmail.com",
+    "url": "https://github.com/monry"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:monry/canvas-resizer"
+  },
+  "files": [
+    "Assets",
+    "scripts"
+  ],
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "ncp": "^2.0.0",
+    "pascal-case": "^2.0.1",
+    "rimraf": "^2.6.1"
+  },
+  "devDependencies": {}
+}
