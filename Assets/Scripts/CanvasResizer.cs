@@ -30,13 +30,21 @@ public class CanvasResizer : MonoBehaviour {
     }
 
     /// <summary>
+    /// リサイズする
+    /// </summary>
+    /// <remarks>内部的には CanvasScaler.matchWidthOrHeight を書き換えてるだけ</remarks>
+    public void Resize() {
+        this.CanvasScaler.matchWidthOrHeight = this.CalculateMatchWidthOrHeight();
+    }
+
+    /// <summary>
     /// Unity lifecycle: Start
     /// </summary>
     /// <remarks>
     /// (主に実機で) 初期化時にスクリーンサイズに応じた Canvas リサイズ処理を走らせる
     /// </remarks>
     private void Start() {
-        this.CanvasScaler.matchWidthOrHeight = this.CalculateMatchWidthOrHeight();
+        this.Resize();
     }
 
     /// <summary>
