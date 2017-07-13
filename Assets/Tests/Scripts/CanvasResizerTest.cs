@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using GameObjectExtension;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -9,13 +9,19 @@ namespace Tests {
 
     public class CanvasResizerTest {
 
-        [UnityTest]
-        public void ResizeTest() {
-            GameObject go = new GameObject();
-            go.AddComponent<Canvas>();
-            CanvasScaler canvasScaler = go.GetComponent<CanvasScaler>();
+        private GameObject go;
 
-            go.AddComponent<CanvasResizer>();
+        [Test]
+        public void ResizeTest() {
+            Assert.IsTrue(this.go.HasComponent<CanvasResizer>(), "CanvasResizer がちゃんと AddComponent されている");
+        }
+
+        [SetUp]
+        public void Setup() {
+            this.go = new GameObject();
+            this.go.AddComponent<Canvas>();
+            this.go.AddComponent<CanvasScaler>();
+            this.go.AddComponent<CanvasResizer>();
         }
 
     }
