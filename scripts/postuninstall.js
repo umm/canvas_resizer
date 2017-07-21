@@ -1,10 +1,11 @@
+var fs = require('fs');
 var mkdirp = require('mkdirp');
 var path = require('path');
+var rimraf = require('rimraf');
 var package = require('../package.json');
-var rsync = new (require('rsync'))();
 
 var script_directory = __dirname;
-// パッケージ名が @ で始まるならスコープ有りと見なす
+// パッケージ名が @ で始まる場合はスコープ有りと見なす
 var has_scope = /^@/.test(package.name);
 
 if ('node_modules' != path.basename(path.resolve(script_directory, (has_scope ? '../' : '') + '../../'))) {
@@ -13,7 +14,6 @@ if ('node_modules' != path.basename(path.resolve(script_directory, (has_scope ? 
 }
 
 // スクリプトの存在するディレクトリから見たパス
-var source = path.resolve(script_directory, '../Assets');
 var destination = path.resolve(script_directory, (has_scope ? '../' : '') + '../../../Assets/Modules');
 // パッケージ名を PascalCase にして付与
 //   (ネームスペースを持つ場合、そのまま namespace + @ をプレフィックスにする)
@@ -28,23 +28,18 @@ if (/^@/.test(package.name)) {
   destination += '/' + package.name;
 }
 
-// 宛先ディレクトリを作る (mkdir -p)
-mkdirp(destination, function(err) {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-  }
-
-  // rsync を用いてファイルを再帰的にコピーする
-  rsync
-    .flags('az')
-    .delete()
-    .source(source + '/')
-    .destination(destination)
-    .execute(function(err, code, command) {
-      if (err) {
-        console.error(err);
-        process.exit(1);
+// 配置先ディレクトリを全削除
+fs.access(
+  destination,
+  function(err) {
+    if (err && err.code == 'ENOENT') {
+      return;
+    }
+    rimraf(
+      destination,
+      function(_) {
+        // Do nothing.
       }
-    });
-});
+    );
+  }
+);
