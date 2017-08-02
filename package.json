@@ -32,6 +32,6 @@
     "rimraf": "^2.6.1"
   },
   "devDependencies": {
-    "@umm/gameobject_extension_component": "^1.1.3"
+    "@umm/gameobject_extension_component": "^1.1.4"
   }
 }
