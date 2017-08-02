@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tests {
+namespace UnityModule.Tests {
 
     public class CanvasResizerTest {
 
