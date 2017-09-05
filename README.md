@@ -9,7 +9,7 @@ uGUI の Canvas を良い感じにリサイズします。
 # Install
 
 ```shell
-$ npm install @umm/canvas-resizer
+$ npm install github:umm-projects/canvas_resizer.git
 ```
 
 # Usage
