@@ -32,6 +32,6 @@
     "rimraf": "^2.6.1"
   },
   "devDependencies": {
-    "@umm/gameobject_extension_component": "github:umm-projects/gameobject_extension_component.git"
+    "@umm/gameobject_extension_component": "github:umm-projects/gameobject_extension_component#semver:^1.1.6"
   }
 }
