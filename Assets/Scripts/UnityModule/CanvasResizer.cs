@@ -201,12 +201,14 @@ namespace UnityModule {
             Color.cyan,
             Color.magenta,
             Color.yellow,
+            Color.green,
         };
 
         /// <summary>
         /// 画面比率のリスト
         /// </summary>
         private static readonly List<Vector2> SIZE_LIST = new List<Vector2>() {
+            new Vector2(812.0f, 375.0f), // iPhone X 以降の iOS ハンドセット
             new Vector2(16.0f, 9.0f), // iPhone 5 以降の iOS ハンドセット
             new Vector2(16.0f, 10.0f), // 主要な Android ハンドセット/タブレット
             new Vector2(3.0f, 2.0f), // iPhone 4S までの iOS ハンドセット
@@ -220,18 +222,36 @@ namespace UnityModule {
         /// 専用のエディタ拡張クラスとして [DrawGizmo()] 属性使って表現しようかとも思ったが、
         /// ちと役割違うなぁと思い直して、今の形に至っている。
         /// </remarks>
+        /// <remarks>Unity の仕様上、ギズモは毎フレーム描画処理を行わないとダメなのだが、計算結果をキャッシュするくらいはしても良いかも。</remarks>
         private void OnDrawGizmos() {
             Color originalColor = Gizmos.color;
             Transform canvasResizerTransform = this.gameObject.transform;
-            Vector2 referenceResolution = this.CanvasScaler.referenceResolution;
             for (int i = 0; i < SIZE_LIST.Count; i++) {
                 Gizmos.color = COLOR_LIST[i % COLOR_LIST.Count];
                 Vector2 size = SIZE_LIST[i];
-                float unitSize = (
-                    size.y / size.x < referenceResolution.y / referenceResolution.x
-                        ? referenceResolution.x / size.x
-                        : referenceResolution.y / size.y
-                );
+                Vector2 extended = new Vector2(this.StandardResolution.y * size.x / size.y, this.StandardResolution.x * size.y / size.x);
+                float unitSize;
+                if (size.y / size.x > this.StandardResolution.y / this.StandardResolution.x) {
+                    if (extended.x + CALCULATE_RESOLUTION_BUFFER > this.MinimumResolution.x) {
+                        unitSize = this.StandardResolution.y / size.y;
+                    } else {
+                        if (extended.y > this.MaximumResolution.y) {
+                            unitSize = this.MaximumResolution.y / size.y;
+                        } else {
+                            unitSize = this.StandardResolution.x / size.x;
+                        }
+                    }
+                } else {
+                    if (extended.y + CALCULATE_RESOLUTION_BUFFER > this.MinimumResolution.y) {
+                        unitSize = this.StandardResolution.x / size.x;
+                    } else {
+                        if (extended.x > this.MaximumResolution.x) {
+                            unitSize = this.MaximumResolution.x / size.x;
+                        } else {
+                            unitSize = this.StandardResolution.y / size.y;
+                        }
+                    }
+                }
                 Gizmos.DrawWireCube(
                     canvasResizerTransform.TransformPoint(canvasResizerTransform.localPosition),
                     new Vector3(size.x * unitSize * canvasResizerTransform.localScale.x, size.y * unitSize * canvasResizerTransform.localScale.y, 0.0f)
