@@ -12,6 +12,27 @@ namespace UnityModule {
     public class CanvasResizer : MonoBehaviour {
 
         /// <summary>
+        /// 解像度計算時のバッファ
+        /// </summary>
+        /// <remarks>どちらかの辺が最小解像度ギリギリの場合を考慮してバッファを設定します</remarks>
+        private const float CALCULATE_RESOLUTION_BUFFER = 10.0f;
+
+        /// <summary>
+        /// デフォルト標準解像度
+        /// </summary>
+        private static readonly Vector2 DEFAULT_STANDARD_RESOLUTION = new Vector2(2272.0f, 1536.0f);
+
+        /// <summary>
+        /// デフォルト最小解像度
+        /// </summary>
+        private static readonly Vector2 DEFAULT_MINIMUM_RESOLUTION = new Vector2(2048.0f, 1278.0f);
+
+        /// <summary>
+        /// デフォルト最大解像度
+        /// </summary>
+        private static readonly Vector2 DEFAULT_MAXIMUM_RESOLUTION = new Vector2(2768.0f, 1536.0f);
+
+        /// <summary>
         /// CanvasScaler の実体
         /// </summary>
         private CanvasScaler canvasScaler;
@@ -19,15 +40,57 @@ namespace UnityModule {
         /// <summary>
         /// CanvasScaler
         /// </summary>
-        public CanvasScaler CanvasScaler {
+        private CanvasScaler CanvasScaler {
             get {
                 if (this.canvasScaler == default(CanvasScaler)) {
                     this.canvasScaler = this.gameObject.GetComponent<CanvasScaler>();
                 }
                 return this.canvasScaler;
             }
-            set {
-                this.canvasScaler = value;
+        }
+
+        /// <summary>
+        /// 標準解像度の実体
+        /// </summary>
+        [SerializeField]
+        private Vector2 standardResolution = DEFAULT_STANDARD_RESOLUTION;
+
+        /// <summary>
+        /// 標準解像度
+        /// </summary>
+        private Vector2 StandardResolution {
+            get {
+                return this.standardResolution;
+            }
+        }
+
+        /// <summary>
+        /// 最小解像度の実体
+        /// </summary>
+        [SerializeField]
+        private Vector2 minimumResolution = DEFAULT_MINIMUM_RESOLUTION;
+
+        /// <summary>
+        /// 最小解像度
+        /// </summary>
+        private Vector2 MinimumResolution {
+            get {
+                return this.minimumResolution;
+            }
+        }
+
+        /// <summary>
+        /// 最大解像度の実体
+        /// </summary>
+        [SerializeField]
+        private Vector2 maximumResolution = DEFAULT_MAXIMUM_RESOLUTION;
+
+        /// <summary>
+        /// 最大解像度
+        /// </summary>
+        private Vector2 MaximumResolution {
+            get {
+                return this.maximumResolution;
             }
         }
 
@@ -37,6 +100,71 @@ namespace UnityModule {
         /// <remarks>内部的には CanvasScaler.matchWidthOrHeight を書き換えてるだけ</remarks>
         public void Resize() {
             this.CanvasScaler.matchWidthOrHeight = this.CalculateMatchWidthOrHeight();
+
+            Vector2 screenSize = new Vector2(Screen.width, Screen.height);
+            Vector2 referenceResolution = this.StandardResolution;
+            // 標準解像度を基準に引き延ばした場合のサイズ
+            Vector2 extendedResolution = new Vector2(
+                this.StandardResolution.y * Screen.width / Screen.height,
+                this.StandardResolution.x * Screen.height / Screen.width
+            );
+            float matchWidthOrHeight;
+            if (screenSize.y / screenSize.x > this.StandardResolution.y / this.StandardResolution.x) {
+                /* 参考解像度よりも大きい場合 */
+                /* iPad や正方形の端末 (あるのか！？) など */
+                if (extendedResolution.x + CALCULATE_RESOLUTION_BUFFER > this.MinimumResolution.x) {
+                    /* 最小解像度XよりもXが大きい場合 */
+                    /* iPad など */
+                    // 縦併せにする
+                    matchWidthOrHeight = 1.0f;
+                } else {
+                    /* 最小解像度XよりもXが小さくなる場合 */
+                    /* (無いとは思うけど) 正方形端末や Landscape 状態で縦長になる端末など */
+                    if (extendedResolution.y > this.MaximumResolution.y) {
+                        /* 最大解像度YよりもYが大きい場合 */
+                        /* Landscape 状態で縦長になる端末など */
+                        // 縦併せにする
+                        matchWidthOrHeight = 1.0f;
+                        // 縦を最大解像度Yに制限する
+                        referenceResolution = new Vector2(this.MaximumResolution.x, this.MaximumResolution.y);
+                    } else {
+                        /* 最大解像度YよりもYが小さい場合 */
+                        /* 正方形な端末など */
+                        // 横併せにする
+                        matchWidthOrHeight = 0.0f;
+                        // 縦を計算した解像度まで引き延ばす
+                        referenceResolution = new Vector2(referenceResolution.x, extendedResolution.y);
+                    }
+                }
+            } else {
+                /* 参考参考解像度よりも小さい場合 */
+                /* iPhone 4s, iPhone 5, iPhone X, Android など */
+                if (extendedResolution.y + CALCULATE_RESOLUTION_BUFFER > this.MinimumResolution.y) {
+                    /* 最小参考解像度YよりもYが大きい場合 */
+                    /* iPhone 4s, iPhone 5, Android など */
+                    matchWidthOrHeight = 0.0f;
+                } else {
+                    /* 最小解像度YよりもYが小さくなる場合 */
+                    /* iPhone X など */
+                    if (extendedResolution.x > this.MaximumResolution.x) {
+                        /* 最大解像度XよりもXが大きい場合 */
+                        /* 相当細長い端末 (1 : 3 とか) など */
+                        // 横併せにする
+                        matchWidthOrHeight = 0.0f;
+                        // 横を最大解像度Xに制限する
+                        referenceResolution = new Vector2(this.MaximumResolution.x, this.MaximumResolution.y);
+                    } else {
+                        /* 最大解像度XよりもXが小さい場合 */
+                        /* iPhone X など */
+                        // 縦併せにする
+                        matchWidthOrHeight = 1.0f;
+                        // 横を計算した解像度まで引き延ばす
+                        referenceResolution = new Vector2(extendedResolution.x, referenceResolution.y);
+                    }
+                }
+            }
+            this.CanvasScaler.referenceResolution = referenceResolution;
+            this.CanvasScaler.matchWidthOrHeight = matchWidthOrHeight;
         }
 
         /// <summary>
