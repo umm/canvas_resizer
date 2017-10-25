@@ -9,6 +9,7 @@ namespace UnityModule {
     /// スクリーンサイズに応じて Canvas のリサイズを行う
     /// </summary>
     [RequireComponent(typeof(CanvasScaler))]
+    [ExecuteInEditMode]
     public class CanvasResizer : MonoBehaviour {
 
         /// <summary>
@@ -214,6 +215,14 @@ namespace UnityModule {
             new Vector2(3.0f, 2.0f), // iPhone 4S までの iOS ハンドセット
             new Vector2(4.0f, 3.0f), // iPad などの iOS タブレット
         };
+
+        /// <summary>
+        /// Unity lifecycle: OnGUI
+        /// </summary>
+        /// <remarks>エディタ編集時にリサイズ処理を走らせる</remarks>
+        private void OnGUI() {
+            this.Resize();
+        }
 
         /// <summary>
         /// ギズモを描画
