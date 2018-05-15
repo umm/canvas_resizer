@@ -7,12 +7,11 @@
     "url": "https://github.com/umm-projects/canvas_resizer/issues"
   },
   "scripts": {
-    "umm:init": "./node_modules/.bin/umm-init",
-    "umm:install": "./node_modules/.bin/umm-install",
-    "umm:uninstall": "./node_modules/.bin/umm-uninstall",
-    "postinstall": "npm run --silent umm:install",
-    "postuninstall": "npm run --silent umm:uninstall",
-    "build:test": "tar -tf $(npm pack -s) && $(npm bin)/rimraf $_"
+    "umm:init": "umm-init",
+    "umm:module:install": "umm-install",
+    "umm:module:uninstall": "umm-uninstall",
+    "postinstall": "npm run --silent umm:module:install",
+    "postuninstall": "npm run --silent umm:module:uninstall"
   },
   "author": {
     "name": "Tetsuya Mori",
@@ -29,13 +28,9 @@
     "scripts"
   ],
   "dependencies": {
-    "@umm/scripts": "umm-projects/scripts#^1.0.0",
-    "glob": "^7.1.2",
-    "mkdirp": "^0.5.1",
-    "ncp": "^2.0.0",
-    "rimraf": "^2.6.1"
+    "@umm/scripts": "umm-projects/scripts#^1.0.0"
   },
   "devDependencies": {
-    "@umm/gameobject_extension_component": "^1.1.7"
+    "@umm/gameobject_extension_component": "umm-projects/gameobject_extension_component#^1.0.0"
   }
 }
