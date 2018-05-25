@@ -178,6 +178,21 @@ namespace UnityModule {
             this.Resize();
         }
 
+#if UNITY_EDITOR
+
+        private Vector2Int CurrentScreenResolution { get; set; } = Vector2Int.zero;
+
+        private void Update()
+        {
+            if (CurrentScreenResolution.x == Screen.width && CurrentScreenResolution.y == Screen.height)
+            {
+                return;
+            }
+            CurrentScreenResolution = new Vector2Int(Screen.width, Screen.height);
+            Resize();
+        }
+#endif
+
         /// <summary>
         /// Width と Height のどちらに併せるべきかを計算する
         /// </summary>
