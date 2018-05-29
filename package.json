@@ -28,7 +28,8 @@
     "scripts"
   ],
   "dependencies": {
-    "@umm/scripts": "umm-projects/scripts#^1.0.0"
+    "@umm/scripts": "umm-projects/scripts#^1.0.0",
+    "@umm/unirx": "umm-projects/unirx#^1.0.0"
   },
   "devDependencies": {
     "@umm/gameobject_extension_component": "umm-projects/gameobject_extension_component#^1.0.0"
