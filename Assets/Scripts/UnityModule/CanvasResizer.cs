@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,18 @@ namespace UnityModule
     [PublicAPI]
     public class CanvasResizer : MonoBehaviour
     {
+        /// <summary>
+        /// 解像度情報
+        /// </summary>
+        public struct ResolutionInformation
+        {
+            public Vector2Int ScreenResolution { get; set; }
+
+            public Vector2Int CanvasResolution { get; set; }
+
+            public float MatchWidthOrHeight { get; set; }
+        }
+
         /// <summary>
         /// 解像度計算時のバッファ
         /// </summary>
@@ -56,6 +69,16 @@ namespace UnityModule
                 return canvasScaler;
             }
         }
+
+        /// <summary>
+        /// 解像度の変更を通知するための Subject
+        /// </summary>
+        private Subject<ResolutionInformation> ResizeSubject { get; set; } = new Subject<ResolutionInformation>();
+
+        /// <summary>
+        /// 解像度の変更が通知されるストリーム
+        /// </summary>
+        public IObservable<ResolutionInformation> OnResizeAsObservable => ResizeSubject;
 
         /// <summary>
         /// 標準解像度の実体
@@ -175,6 +198,20 @@ namespace UnityModule
 
             CanvasScaler.referenceResolution = referenceResolution;
             CanvasScaler.matchWidthOrHeight = matchWidthOrHeight;
+            if (Application.isPlaying)
+            {
+                ResizeSubject.OnNext(
+                    new ResolutionInformation
+                    {
+                        CanvasResolution = new Vector2Int(
+                            Mathf.Approximately(0.0f, matchWidthOrHeight) ? (int)referenceResolution.x : (int)((float)Screen.width / Screen.height * referenceResolution.y),
+                            Mathf.Approximately(1.0f, matchWidthOrHeight) ? (int)referenceResolution.y : (int)((float)Screen.height / Screen.width * referenceResolution.x)
+                        ),
+                        ScreenResolution = new Vector2Int(Screen.width, Screen.height),
+                        MatchWidthOrHeight = matchWidthOrHeight,
+                    }
+                );
+            }
         }
 
         /// <summary>
@@ -187,22 +224,6 @@ namespace UnityModule
         {
             Resize();
         }
-
-#if UNITY_EDITOR
-
-        private Vector2Int CurrentScreenResolution { get; set; } = Vector2Int.zero;
-
-        private void Update()
-        {
-            if (CurrentScreenResolution.x == Screen.width && CurrentScreenResolution.y == Screen.height)
-            {
-                return;
-            }
-
-            CurrentScreenResolution = new Vector2Int(Screen.width, Screen.height);
-            Resize();
-        }
-#endif
 
         /// <summary>
         /// Width と Height のどちらに併せるべきかを計算する
@@ -218,6 +239,28 @@ namespace UnityModule
 
             return 1.0f;
         }
+
+#if UNITY_EDITOR
+
+        /// <summary>
+        /// 現在の画面解像度
+        /// </summary>
+        private Vector2Int CurrentScreenResolution { get; set; } = Vector2Int.zero;
+
+        /// <summary>
+        /// Unity Lifecycle: OnGUI
+        /// </summary>
+        private void OnGUI()
+        {
+            if (CurrentScreenResolution.x == Screen.width && CurrentScreenResolution.y == Screen.height)
+            {
+                return;
+            }
+
+            CurrentScreenResolution = new Vector2Int(Screen.width, Screen.height);
+            Resize();
+        }
+#endif
 
 #if UNITY_EDITOR
 
@@ -246,15 +289,6 @@ namespace UnityModule
             new Vector2(3.0f, 2.0f), // iPhone 4S までの iOS ハンドセット
             new Vector2(4.0f, 3.0f), // iPad などの iOS タブレット
         };
-
-        /// <summary>
-        /// Unity lifecycle: OnGUI
-        /// </summary>
-        /// <remarks>エディタ編集時にリサイズ処理を走らせる</remarks>
-        private void OnGUI()
-        {
-            Resize();
-        }
 
         /// <summary>
         /// ギズモを描画
