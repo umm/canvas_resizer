@@ -1,0 +1,13 @@
+{
+    "name": "Tests.PlayMode",
+    "references": [
+        "umm@canvas_resizer",
+        "umm@gameobject_extension_component"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
