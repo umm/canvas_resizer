@@ -1,8 +1,6 @@
 {
     "name": "umm@canvas_resizer",
-    "references": [
-        "umm@gameobject_extension_component"
-    ],
+    "references": [],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
