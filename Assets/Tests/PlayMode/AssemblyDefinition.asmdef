@@ -1,8 +1,9 @@
 {
-    "name": "Tests.PlayMode",
+    "name": "umm@canvas_resizer-Tests-PlayMode",
     "references": [
         "umm@canvas_resizer",
-        "umm@gameobject_extension_component"
+        "umm@gameobject_extension_component",
+        "umm@unirx_observablelifecyclemonobehaviour"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
