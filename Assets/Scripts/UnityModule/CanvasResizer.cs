@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ namespace UnityModule
     [RequireComponent(typeof(CanvasScaler))]
     [ExecuteInEditMode]
     [PublicAPI]
-    public class CanvasResizer : MonoBehaviour
+    public class CanvasResizer : ObservableLifecycleMonoBehaviour
     {
         /// <summary>
         /// 解像度計算時のバッファ
@@ -183,8 +184,9 @@ namespace UnityModule
         /// <remarks>
         /// (主に実機で) 初期化時にスクリーンサイズに応じた Canvas リサイズ処理を走らせる
         /// </remarks>
-        private void Start()
+        protected override void OnStart()
         {
+            base.OnStart();
             Resize();
         }
 
