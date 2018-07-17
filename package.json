@@ -2,9 +2,9 @@
   "name": "@umm/canvas_resizer",
   "version": "1.4.2",
   "description": "Resize uGUI Canvas (UnityEngine.UI.Canvas) uses CanvasScaler (UnityEngine.UI.CanvasScaler)",
-  "homepage": "https://github.com/umm-projects/canvas_resizer",
+  "homepage": "https://github.com/umm/canvas_resizer",
   "bugs": {
-    "url": "https://github.com/umm-projects/canvas_resizer/issues"
+    "url": "https://github.com/umm/canvas_resizer/issues"
   },
   "scripts": {
     "umm:init": "umm-init",
@@ -22,17 +22,17 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:umm-projects/canvas_resizer"
+    "url": "git@github.com:umm/canvas_resizer"
   },
   "files": [
     "Assets",
     "scripts"
   ],
   "dependencies": {
-    "@umm/scripts": "umm-projects/scripts#^1.0.0",
-    "@umm/unirx_observablelifecyclemonobehaviour": "umm-projects/unirx_observablelifecyclemonobehaviour#^1.0.0"
+    "@umm/scripts": "umm/scripts#^1.0.0",
+    "@umm/unirx_observablelifecyclemonobehaviour": "umm/unirx_observablelifecyclemonobehaviour#^1.0.0"
   },
   "devDependencies": {
-    "@umm/gameobject_extension_component": "umm-projects/gameobject_extension_component#^1.0.0"
+    "@umm/gameobject_extension_component": "umm/gameobject_extension_component#^1.0.0"
   }
 }
