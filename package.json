@@ -1,6 +1,6 @@
 {
   "name": "@umm/canvas_resizer",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Resize uGUI Canvas (UnityEngine.UI.Canvas) uses CanvasScaler (UnityEngine.UI.CanvasScaler)",
   "homepage": "https://github.com/umm/canvas_resizer",
   "bugs": {
