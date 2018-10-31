@@ -270,10 +270,19 @@ namespace UnityModule
         {
             var originalColor = Gizmos.color;
             var canvasResizerTransform = gameObject.transform;
+            var landscape = true;
+            if (CanvasScaler.referenceResolution.x < CanvasScaler.referenceResolution.y)
+            {
+                landscape = false;
+            }
             for (var i = 0; i < SizeList.Count; i++)
             {
                 Gizmos.color = ColorList[i % ColorList.Count];
                 var size = SizeList[i];
+                if (!landscape)
+                {
+                    size = new Vector2(size.y, size.x);
+                }
                 var extended = new Vector2(StandardResolution.y * size.x / size.y, StandardResolution.x * size.y / size.x);
                 float unitSize;
                 if (size.y / size.x > StandardResolution.y / StandardResolution.x)
