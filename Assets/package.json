@@ -1,0 +1,27 @@
+{
+  "name": "dev.upm-packages.canvas-resizer",
+  "displayName": "Canvas Resizer",
+  "version": "1.6.0",
+  "unity": "2019.3",
+  "description": "Resize uGUI Canvas (UnityEngine.UI.Canvas) uses CanvasScaler (UnityEngine.UI.CanvasScaler)",
+  "homepage": "https://github.com/umm/canvas_resizer",
+  "bugs": {
+    "url": "https://github.com/umm/canvas_resizer/issues"
+  },
+  "author": {
+    "name": "Tetsuya Mori",
+    "email": "monry84@gmail.com",
+    "url": "https://github.com/monry"
+  },
+  "license": "MIT",
+  "keywords": [],
+  "category": "",
+  "dependencies": {
+    "dev.upm-packages.gameobject-extension-component": "1.4.0",
+    "dev.upm-packages.unirx-observablelifecyclemonobehaviour": "1.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/umm/canvas_resizer"
+  }
+}
