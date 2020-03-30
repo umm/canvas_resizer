@@ -5,6 +5,7 @@
 /[Oo]bj/
 /[Ll]ibrary/
 /[Bb]uild/
+/[Ll]ogs/
 /UnityGenerated/
 # Library should not freeze version, it should be written in README.
 /ProjectSettings/ProjectVersion.txt
@@ -54,6 +55,7 @@ Thumbs.db
 # ======== #
 # Optional #
 # ======== #
+/Assets/Plugins.meta
 /Assets/Plugins/Editor.meta
 
 # ====== #

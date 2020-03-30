@@ -1,14 +1,23 @@
 {
     "name": "umm@canvas_resizer-Tests-PlayMode",
     "references": [
-        "umm@canvas_resizer",
-        "umm@gameobject_extension_component",
-        "umm@unirx_observablelifecyclemonobehaviour"
-    ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
+        "GUID:e41e8e695c8754d1b95eafaf79b7870c",
+        "GUID:e27dd91de096c4709a2fa6e20fa03f8e",
+        "GUID:a4f42265ac7cd41e9834080fcb0fab23",
+        "GUID:27619889b8ba8c24980f49ee34dbb44a",
+        "GUID:0acc523941302664db1f4e527237feb3"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

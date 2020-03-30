@@ -1,10 +1,15 @@
 {
-  "name": "umm@canvas_resizer",
-  "references": [
-    "umm@unirx_observablelifecyclemonobehaviour"
-  ],
-  "optionalUnityReferences": [],
-  "includePlatforms": [],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false
+    "name": "umm@canvas_resizer",
+    "references": [
+        "GUID:a4f42265ac7cd41e9834080fcb0fab23"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
